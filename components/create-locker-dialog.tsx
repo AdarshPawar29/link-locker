@@ -1,69 +1,67 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
-import { Textarea } from "@/components/ui/textarea"
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
 
 interface CreateLockerDialogProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
-export function CreateLockerDialog({ open, onOpenChange }: CreateLockerDialogProps) {
-  const [isPublic, setIsPublic] = useState(false)
+export function CreateLockerDialog({
+  open,
+  onOpenChange,
+}: CreateLockerDialogProps) {
+  const [isPublic, setIsPublic] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle form submission
+    onOpenChange(false);
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Create New Locker</DialogTitle>
-          <DialogDescription>
-            Create a new locker to organize your links. You can make it public or private.
-          </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid gap-2">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
             <Label htmlFor="name">Name</Label>
-            <Input id="name" placeholder="My Awesome Links" />
+            <Input id="name" placeholder="Enter locker name" />
           </div>
-          <div className="grid gap-2">
+          <div className="space-y-2">
             <Label htmlFor="description">Description</Label>
             <Textarea
               id="description"
-              placeholder="A collection of useful resources..."
+              placeholder="Enter a description for your locker"
             />
           </div>
           <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label>Public Locker</Label>
-              <div className="text-sm text-muted-foreground">
-                Anyone with the link can view
-              </div>
-            </div>
+            <Label htmlFor="public">Make locker public</Label>
             <Switch
+              id="public"
               checked={isPublic}
               onCheckedChange={setIsPublic}
             />
           </div>
-        </div>
-        <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Cancel
-          </Button>
-          <Button type="submit">Create Locker</Button>
-        </DialogFooter>
+          <DialogFooter>
+            <Button type="submit">Create Locker</Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

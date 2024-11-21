@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Lock } from "lucide-react"
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Lock } from "lucide-react";
 
 export function DashboardNav() {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -37,7 +37,9 @@ export function DashboardNav() {
             </Link>
             <Link href="/dashboard/settings">
               <Button
-                variant={pathname === "/dashboard/settings" ? "default" : "ghost"}
+                variant={
+                  pathname === "/dashboard/settings" ? "default" : "ghost"
+                }
                 className="h-8"
               >
                 Settings
@@ -47,5 +49,5 @@ export function DashboardNav() {
         </div>
       </div>
     </header>
-  )
+  );
 }
