@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { LockerView } from "@/components/locker-view";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 
 export default function LockerPage({ params }: { params: { id: string } }) {
   return (
@@ -20,12 +21,20 @@ function LockerSkeleton() {
         </div>
         <Skeleton className="h-10 w-28" />
       </div>
-      <Skeleton className="h-10 max-w-xl w-full" />
-      <div className="space-y-4">
-        {[1, 2, 3].map((i) => (
-          <Skeleton key={i} className="h-32 w-full" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {[1, 2, 3, 4].map((i) => (
+          <Skeleton key={i} className="h-48 w-full" />
         ))}
       </div>
     </div>
   );
+}
+
+export function generateStaticParams() {
+  const lockerIds = [
+    "development-resources",
+    "design-inspiration",
+    "reading-list",
+  ];
+  return lockerIds.map((id) => ({ id }));
 }

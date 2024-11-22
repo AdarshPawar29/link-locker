@@ -23,6 +23,7 @@ import { AddLinkDialog } from "./add-link-dialog";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 interface Link {
+  imageUrl: string;
   id: string;
   title: string;
   url: string;
@@ -70,6 +71,7 @@ export function LockerView({ id }: LockerViewProps) {
               description: "Central documentation hub",
               tags: ["docs", "work"],
               addedAt: "2024-03-20",
+              imageUrl: "https://picsum.photos/seed/docs/300/200",
             },
             {
               id: "2",
@@ -78,6 +80,25 @@ export function LockerView({ id }: LockerViewProps) {
               description: "Team schedule and important dates",
               tags: ["calendar", "team"],
               addedAt: "2024-03-19",
+              imageUrl: "https://picsum.photos/seed/calendar/300/200",
+            },
+            {
+              id: "3",
+              title: "Project Management",
+              url: "https://pm.example.com",
+              description: "Track and manage projects",
+              tags: ["project", "management"],
+              addedAt: "2024-03-18",
+              imageUrl: "https://picsum.photos/seed/project/300/200",
+            },
+            {
+              id: "4",
+              title: "Design Resources",
+              url: "https://design.example.com",
+              description: "UI/UX design assets and guidelines",
+              tags: ["design", "resources"],
+              addedAt: "2024-03-17",
+              imageUrl: "https://picsum.photos/seed/design/300/200",
             },
           ],
         };
@@ -129,89 +150,110 @@ export function LockerView({ id }: LockerViewProps) {
   };
 
   return (
-    <div className="container py-8 space-y-6">
+    <div className="container py-8 space-y-8">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold">{locker.name}</h1>
-          <p className="text-muted-foreground mt-1">{locker.description}</p>
+          <h1 className="text-4xl font-bold">{locker.name}</h1>
+          <p className="text-muted-foreground mt-2">{locker.description}</p>
         </div>
-        <Button onClick={() => setIsAddLinkDialogOpen(true)}>
-          <Plus className="mr-2 h-4 w-4" /> Add Link
+        <Button onClick={() => setIsAddLinkDialogOpen(true)} size="lg">
+          <Plus className="mr-2 h-5 w-5" /> Add Link
         </Button>
       </div>
 
-      <div className="relative max-w-xl">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+      <div className="relative max-w-xl mx-auto">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
         <Input
           placeholder="Search links..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="pl-10"
+          className="pl-10 py-6 text-lg"
         />
       </div>
 
       {filteredLinks.length === 0 ? (
-        <div className="text-center py-12">
-          <p className="text-muted-foreground">
+        <div className="text-center py-16">
+          <p className="text-muted-foreground text-xl">
             {searchQuery
               ? "No links found matching your search"
               : "No links added yet"}
           </p>
         </div>
       ) : (
-        <div className="grid gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredLinks.map((link) => (
-            <Card key={link.id} className="p-6">
-              <div className="flex justify-between items-start">
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-semibold text-lg">{link.title}</h3>
-                    <a
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-primary transition-colors"
-                    >
-                      <ExternalLink className="h-4 w-4" />
-                    </a>
+            <Card
+              key={link.id}
+              className="relative overflow-hidden group cursor-pointer transition-all duration-300 ease-in-out"
+              style={{
+                aspectRatio: "16 / 9",
+                width: "100%", // Ensure full width
+              }}
+            >
+              <div
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-300 ease-in-out group-hover:scale-110"
+                style={{
+                  backgroundImage: `url(${
+                    link.imageUrl || "/placeholder.svg?height=200&width=300"
+                  })`,
+                }}
+              />
+              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity duration-300 ease-in-out" />
+
+              <div className="absolute inset-0 p-4 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
+                <div className="flex justify-between items-start">
+                  <a
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white hover:text-primary transition-colors"
+                  >
+                    <ExternalLink className="h-5 w-5" />
+                  </a>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-white hover:bg-white/20"
+                      >
+                        <MoreVertical className="h-5 w-5" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem>Edit</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleCopyUrl(link.url)}>
+                        Copy URL
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="text-destructive">
+                        Delete
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+                <div>
+                  <p className="text-sm text-white mb-2">{link.description}</p>
+                  <div className="flex flex-wrap items-center gap-2 text-xs text-white">
+                    <Calendar className="h-3 w-3" />
+                    {new Date(link.addedAt).toLocaleDateString()}
                   </div>
-                  <p className="text-sm text-muted-foreground">
-                    {link.description}
-                  </p>
+                  <div className="flex flex-wrap items-center gap-2 mt-2">
+                    <Tag className="h-3 w-3 text-white" />
+                    {link.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="bg-primary/80 px-2 py-1 rounded-full text-xs text-white"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon">
-                      <MoreVertical className="h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => handleCopyUrl(link.url)}>
-                      Copy URL
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="text-destructive">
-                      Delete
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
               </div>
-              <div className="flex flex-wrap items-center gap-4 mt-4 text-sm text-muted-foreground">
-                <div className="flex items-center">
-                  <Calendar className="h-4 w-4 mr-1" />
-                  {new Date(link.addedAt).toLocaleDateString()}
-                </div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <Tag className="h-4 w-4" />
-                  {link.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="bg-secondary px-2 py-1 rounded-md text-xs"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+              <div className="p-4">
+                <h2 className="text-lg font-semibold line-clamp-1">
+                  {link.title}
+                </h2>
               </div>
             </Card>
           ))}

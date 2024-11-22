@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { LockerCard } from "@/components/locker-card"
-import { CreateLockerDialog } from "@/components/create-locker-dialog"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { LockerCard } from "@/components/locker-card";
+import { CreateLockerDialog } from "@/components/create-locker-dialog";
 
 export function LockerList() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   return (
     <>
@@ -21,22 +21,25 @@ export function LockerList() {
           description="Useful links for web development"
           linkCount={12}
           isPublic={true}
+          imageUrl={""}
         />
         <LockerCard
           title="Design Inspiration"
           description="UI/UX design references"
           linkCount={8}
           isPublic={false}
+          imageUrl={""}
         />
         <LockerCard
           title="Reading List"
           description="Articles to read later"
           linkCount={15}
           isPublic={false}
+          imageUrl={""}
         />
       </div>
 
       <CreateLockerDialog open={open} onOpenChange={setOpen} />
     </>
-  )
+  );
 }
