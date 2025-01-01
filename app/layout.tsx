@@ -3,6 +3,8 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { ThemeProvider } from "@/components/theme-provider"
 import { Navigation } from "@/components/navigation"
+import { AuthProvider } from "@/components/providers/AuthProvider"
+import { ErrorBoundary } from "@/components/providers/ErrorBoundary"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,17 +21,21 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-          disableTransitionOnChange
-        >
-          <div className="min-h-screen bg-background">
-            <Navigation />
-            <main>{children}</main>
-          </div>
-        </ThemeProvider>
+        <ErrorBoundary>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem={false}
+            disableTransitionOnChange
+          >
+            <AuthProvider>
+              <div className="min-h-screen bg-background flex flex-col">
+                <Navigation />
+                <main className="flex-1">{children}</main>
+              </div>
+            </AuthProvider>
+          </ThemeProvider>
+        </ErrorBoundary>
       </body>
     </html>
   )
