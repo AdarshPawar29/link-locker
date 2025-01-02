@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Lock,
@@ -11,18 +10,10 @@ import {
   FolderHeart,
   Share2,
   Settings,
-  LogOut,
 } from "lucide-react";
-import { useAuth } from "@/hooks/useAuth";
-import { supabase } from "@/lib/supabase/client";
 
 export function Navigation() {
   const pathname = usePathname();
-  const { user } = useAuth();
-
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-  };
 
   const routes = [
     { href: "/", label: "Home", icon: Home },
@@ -57,25 +48,10 @@ export function Navigation() {
         </nav>
 
         <div className="flex items-center space-x-4">
-          {user ? (
-            <>
-              <Button onClick={() => {}} variant="outline">
-                <Plus className="mr-2 h-4 w-4" />
-                New Locker
-              </Button>
-              <Button
-                onClick={handleSignOut}
-                variant="ghost"
-                className="text-destructive"
-              >
-                <LogOut className="h-4 w-4" />
-              </Button>
-            </>
-          ) : (
-            <Link href="/auth">
-              <Button>Sign In</Button>
-            </Link>
-          )}
+          <Button variant="outline">
+            <Plus className="mr-2 h-4 w-4" />
+            New Locker
+          </Button>
         </div>
       </div>
     </header>

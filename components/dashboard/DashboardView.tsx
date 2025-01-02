@@ -7,6 +7,8 @@ import { PageHeader } from "../shared/PageHeader";
 import { Button } from "../ui/button";
 import { Plus } from "lucide-react";
 import { CreateLockerDialog } from "../create-locker-dialog";
+import { DashboardStats } from "./DashboardStats";
+import { RecentActivity } from "./RecentActivity";
 
 export function DashboardView() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -25,14 +27,24 @@ export function DashboardView() {
         }
       />
 
-      <div className="max-w-xl">
-        <SearchInput
-          onSearch={setSearchQuery}
-          placeholder="Search lockers..."
-        />
-      </div>
+      <DashboardStats />
 
-      <LockerGrid searchQuery={searchQuery} />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2 space-y-6">
+          <div className="max-w-xl">
+            <SearchInput
+              onSearch={setSearchQuery}
+              placeholder="Search lockers..."
+            />
+          </div>
+
+          <LockerGrid searchQuery={searchQuery} />
+        </div>
+
+        <div className="lg:col-span-1">
+          <RecentActivity />
+        </div>
+      </div>
 
       <CreateLockerDialog
         open={isCreateDialogOpen}

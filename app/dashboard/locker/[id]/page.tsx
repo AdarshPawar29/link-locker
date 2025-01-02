@@ -1,7 +1,6 @@
 import { Suspense } from "react";
 import { LockerView } from "@/components/locker-view";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
 
 export default function LockerPage({ params }: { params: { id: string } }) {
   return (
@@ -31,10 +30,18 @@ function LockerSkeleton() {
 }
 
 export function generateStaticParams() {
+  // Include all possible locker IDs that could be accessed
   const lockerIds = [
     "development-resources",
     "design-inspiration",
     "reading-list",
+    "1",
+    "2",
+    "3",
+    "4"
   ];
-  return lockerIds.map((id) => ({ id }));
+  
+  return lockerIds.map((id) => ({
+    id: id.toString()
+  }));
 }

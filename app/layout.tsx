@@ -3,7 +3,6 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { ThemeProvider } from "@/components/theme-provider"
 import { Navigation } from "@/components/navigation"
-import { AuthProvider } from "@/components/providers/AuthProvider"
 import { ErrorBoundary } from "@/components/providers/ErrorBoundary"
 
 const inter = Inter({ subsets: ['latin'] })
@@ -28,12 +27,10 @@ export default function RootLayout({
             enableSystem={false}
             disableTransitionOnChange
           >
-            <AuthProvider>
-              <div className="min-h-screen bg-background flex flex-col">
-                <Navigation />
-                <main className="flex-1">{children}</main>
-              </div>
-            </AuthProvider>
+            <div className="min-h-screen bg-background flex flex-col">
+              <Navigation />
+              <main className="flex-1">{children}</main>
+            </div>
           </ThemeProvider>
         </ErrorBoundary>
       </body>
