@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import * as cheerio from "cheerio";
+import { getLinkPreview } from "link-preview-js";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -10,19 +10,13 @@ export async function GET(request: Request) {
   }
 
   try {
-    const response = await fetch(url);
-    const html = await response.text();
-    const $ = cheerio.load(html);
+    const previewData = await getLinkPreview(url);
 
     const preview = {
-      title: $("title").text() || $('meta[property="og:title"]').attr("content"),
-      description:
-        $('meta[name="description"]').attr("content") ||
-        $('meta[property="og:description"]').attr("content"),
-      image:
-        $('meta[property="og:image"]').attr("content") ||
-        $('meta[name="twitter:image"]').attr("content"),
-      favicon: $('link[rel="icon"]').attr("href") || "/favicon.ico",
+      title: 'title' in previewData ? previewData.title : '',
+      description: 'description' in previewData ? previewData.description : '',
+      image: 'images' in previewData ? previewData.images?.[0] : '',
+      favicon: 'favicons' in previewData ? previewData.favicons?.[0] || "/favicon.ico" : "/favicon.ico",
     };
 
     return NextResponse.json(preview);

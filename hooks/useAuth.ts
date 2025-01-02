@@ -1,1 +1,1 @@
-export { useAuth } from "@/components/providers/AuthProvider";
+// This file has been removed as it contained only authentication-related code.

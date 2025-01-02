@@ -17,6 +17,7 @@ export function LockerList() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <LockerCard
+          id="1"
           title="Development Resources"
           description="Useful links for web development"
           linkCount={12}
@@ -24,6 +25,7 @@ export function LockerList() {
           imageUrl={""}
         />
         <LockerCard
+          id="2"
           title="Design Inspiration"
           description="UI/UX design references"
           linkCount={8}
@@ -31,6 +33,7 @@ export function LockerList() {
           imageUrl={""}
         />
         <LockerCard
+          id="3"
           title="Reading List"
           description="Articles to read later"
           linkCount={15}

@@ -46,7 +46,6 @@ A modern, secure platform for organizing and sharing your important links.
 linklocker/
 ├── app/                    # Next.js app router
 ├── components/            
-│   ├── auth/              # Authentication components
 │   ├── links/             # Link management components
 │   ├── lockers/           # Locker management components
 │   ├── shared/            # Shared/common components
@@ -54,7 +53,6 @@ linklocker/
 ├── lib/
 │   ├── supabase/          # Supabase client and types
 │   ├── utils/             # Utility functions
-│   └── validators/        # Zod schemas
 ├── hooks/                 # Custom React hooks
 ├── styles/                # Global styles
 └── types/                 # TypeScript types
